@@ -55,7 +55,7 @@ const ArticleCard = ({
 
   // Determine classes based on variant and size
   const cardClasses = cn(
-    "group overflow-hidden border border-border bg-background h-full transition-colors hover:bg-muted/20",
+    "group overflow-hidden border border-border bg-card text-card-foreground h-full transition-all duration-200 ease-in-out shadow-sm hover:shadow-md hover:border-primary/40 dark:hover:border-primary/60",
     {
       "flex": variant === "horizontal",
     }

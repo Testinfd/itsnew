@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Newspaper, Menu, Search, User } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import ThemeToggle from '../ui/ThemeToggle';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
