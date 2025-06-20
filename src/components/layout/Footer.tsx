@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Newspaper, Github, Twitter, Youtube, Facebook, Instagram } from 'lucide-react';
+import { Newspaper, Github, Twitter, Youtube, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (

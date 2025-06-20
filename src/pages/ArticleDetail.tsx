@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   ChevronLeft,
@@ -8,8 +8,6 @@ import {
   Bookmark,
   BookmarkCheck,
   MessageSquare,
-  ThumbsUp,
-  User,
   Heart,
   Twitter,
   Facebook,
@@ -19,24 +17,23 @@ import {
   Tag,
   Eye
 } from "lucide-react";
-import { format } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
+import { Separator } from "@radix-ui/themes"; // Import Separator from @radix-ui/themes
 
 // Components
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageTransition from "@/components/layout/PageTransition";
 import NewsletterSubscription from "@/components/news/NewsletterSubscription";
-import ArticleCard from "@/components/news/ArticleCard";
 
 // Data
 import { articleData } from "@/data/articles";
 import type { Article } from "@/components/news/ArticleCard";
+import { formatDate, getReadingTime } from "@/lib/utils";
 
 const ArticleDetail = () => {
   const { articleId } = useParams();
@@ -95,23 +92,6 @@ const ArticleDetail = () => {
     
     return () => clearTimeout(timer);
   }, [articleId, navigate]);
-  
-  // Format date
-  const formatDate = (timestamp: string) => {
-    try {
-      return format(new Date(timestamp), 'MMMM d, yyyy');
-    } catch (error) {
-      return format(new Date(), 'MMMM d, yyyy');
-    }
-  };
-  
-  // Calculate reading time
-  const getReadingTime = (content: string | undefined): number => {
-    if (!content) return 3;
-    const wordsPerMinute = 200;
-    const wordCount = content.split(/\s+/).length;
-    return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
-  };
   
   // Handle bookmark click
   const handleBookmarkClick = () => {
@@ -281,7 +261,7 @@ const ArticleDetail = () => {
                 
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
-                  <span>{formatDate(article?.date || '')}</span>
+                  <span>{formatDate(article?.timestamp || article?.date || '')}</span>
                 </div>
                 
                 <div className="flex items-center">

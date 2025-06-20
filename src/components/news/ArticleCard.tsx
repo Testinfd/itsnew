@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Clock, BookmarkCheck, Bookmark, Calendar, User } from "lucide-react";
-import { format } from "date-fns";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, formatDate, getReadingTime } from "@/lib/utils"; // Import getReadingTime
 import { toast } from "sonner";
 
 export interface Article {
@@ -19,6 +18,7 @@ export interface Article {
   tags?: string[];
   views?: number;
   isPremium?: boolean;
+  timestamp?: string;
 }
 
 interface ArticleCardProps {
@@ -35,23 +35,6 @@ const ArticleCard = ({
   showExcerpt = true,
 }: ArticleCardProps) => {
   const [bookmarked, setBookmarked] = useState(false);
-  
-  // Format date
-  const formatDate = (timestamp: string) => {
-    try {
-      return format(new Date(timestamp), "MMM d, yyyy");
-    } catch (error) {
-      return format(new Date(), "MMM d, yyyy");
-    }
-  };
-  
-  // Calculate reading time
-  const getReadingTime = (content: string | undefined): number => {
-    if (!content) return 3;
-    const wordsPerMinute = 200;
-    const wordCount = content.split(/\s+/).length;
-    return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
-  };
   
   // Handle bookmark click
   const handleBookmarkClick = (e: React.MouseEvent) => {
@@ -170,7 +153,7 @@ const ArticleCard = ({
             </div>
             <div className="flex items-center">
               <Calendar className="h-3 w-3 mr-1" />
-              <span>{formatDate(article.date)}</span>
+              <span>{formatDate(article.timestamp || article.date)}</span>
             </div>
           </CardFooter>
         </CardContent>
@@ -179,4 +162,4 @@ const ArticleCard = ({
   );
 };
 
-export default ArticleCard; 
+export default ArticleCard;

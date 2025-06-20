@@ -1,41 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react"; // Removed React import
+import { Link } from "react-router-dom";
 import { 
-  Search, Filter, ArrowRight, ChevronRight, ChevronLeft, 
-  Clock, User, Calendar, Bookmark, Tag, TrendingUp,
-  ExternalLink, ArrowUpRight, MoreHorizontal, Rss, Heart, Newspaper, Trophy, Compass, GamepadIcon, RefreshCcw, BookOpen, Users
+  Search, Filter, ChevronRight,
+  Clock, Calendar, Bookmark, Tag, TrendingUp,
+  Rss, Trophy, Compass, GamepadIcon, RefreshCcw, BookOpen, Users
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import { cn, formatDate, getReadingTime } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Tabs } from "@radix-ui/themes"; // Removed TabsList, TabsTrigger
 
 // Components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import PageTransition from "@/components/layout/PageTransition";
-import NewsletterSubscription from "@/components/news/NewsletterSubscription";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import ArticleCard from "@/components/news/ArticleCard";
-import ArticleList from "@/components/news/ArticleList";
-import FeaturedArticleCarousel from "@/components/news/FeaturedArticleCarousel";
 
 // Data
 import { articleData } from "@/data/articles";
-import { toast } from "sonner";
 
 // Types
 import type { Article } from "@/components/news/ArticleCard";
 
 const News = () => {
-  const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isMobile = useMediaQuery("(max-width: 768px)");
   
   // State
@@ -45,8 +35,7 @@ const News = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // Keep for potential future pagination re-add
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("latest");
   
@@ -75,15 +64,6 @@ const News = () => {
     { id: "updates", label: "Updates" },
     { id: "community", label: "Community" },
     { id: "guides", label: "Guides" }
-  ];
-  
-  // Quick links
-  const quickLinks = [
-    { id: "trending", label: "Top trending", url: "/news?filter=trending" },
-    { id: "tournaments", label: "Tournaments", url: "/tournaments" },
-    { id: "teams", label: "Teams", url: "/teams" },
-    { id: "players", label: "Players", url: "/players" },
-    { id: "events", label: "Events", url: "/events" }
   ];
   
   // Fetch data on mount
@@ -147,34 +127,17 @@ const News = () => {
   }, [selectedCategory, searchQuery, selectedTags, activeTab]);
   
   // Calculate pagination
-  const totalPages = Math.ceil(articles.length / ARTICLES_PER_PAGE);
+  // const totalPages = Math.ceil(articles.length / ARTICLES_PER_PAGE); // Commented out totalPages
   const currentArticles = articles.slice(
     (currentPage - 1) * ARTICLES_PER_PAGE,
     currentPage * ARTICLES_PER_PAGE
   );
   
   // Pagination helpers
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  
-  // Format date
-  const formatDate = (timestamp: string) => {
-    try {
-      return format(new Date(timestamp), 'MMM d, yyyy');
-    } catch (error) {
-      return format(new Date(), 'MMM d, yyyy');
-    }
-  };
-  
-  // Calculate reading time
-  const getReadingTime = (content: string | undefined): number => {
-    if (!content) return 3;
-    const wordsPerMinute = 200;
-    const wordCount = content.split(/\s+/).length;
-    return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
-  };
+  // const goToPage = (page: number) => {
+  //   setCurrentPage(page);
+  //   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // };
 
   // Toggle tag selection
   const toggleTag = (tagId: string) => {
@@ -186,7 +149,7 @@ const News = () => {
   };
 
   // Optimize image URL (placeholder function)
-  const optimizeImageUrl = (url: string, width?: number) => {
+  const optimizeImageUrl = (url: string, _width?: number) => {
     // In a real app, this would resize/optimize the image
     return url;
   };
@@ -317,17 +280,16 @@ const News = () => {
                   </h2>
                   
                   <div className="flex items-center">
-                    <Tabs 
+                    <Tabs.Root
                       value={activeTab} 
                       onValueChange={setActiveTab}
-                      className="w-full"
                     >
-                      <TabsList className="bg-muted/30 h-9 rounded-lg">
-                        <TabsTrigger value="latest" className="text-xs sm:text-sm rounded-md">Latest</TabsTrigger>
-                        <TabsTrigger value="trending" className="text-xs sm:text-sm rounded-md">Trending</TabsTrigger>
-                        <TabsTrigger value="featured" className="text-xs sm:text-sm rounded-md">Featured</TabsTrigger>
-                      </TabsList>
-                    </Tabs>
+                      <Tabs.List className="bg-muted/30 h-9 rounded-lg">
+                        <Tabs.Trigger value="latest" className="text-xs sm:text-sm rounded-md">Latest</Tabs.Trigger>
+                        <Tabs.Trigger value="trending" className="text-xs sm:text-sm rounded-md">Trending</Tabs.Trigger>
+                        <Tabs.Trigger value="featured" className="text-xs sm:text-sm rounded-md">Featured</Tabs.Trigger>
+                      </Tabs.List>
+                    </Tabs.Root>
                   </div>
                 </div>
                 
@@ -382,7 +344,7 @@ const News = () => {
                                   </span>
                                   <span className="flex items-center gap-1.5">
                                     <Calendar className="h-3.5 w-3.5" />
-                                    {formatDate(featuredArticles[0].timestamp)}
+                                    {formatDate(featuredArticles[0].timestamp || featuredArticles[0].date)}
                                   </span>
                                 </div>
                               </div>
@@ -428,7 +390,7 @@ const News = () => {
                                 
                                 <div className="flex items-center text-muted-foreground text-xs">
                                   <Calendar className="h-3 w-3 mr-1" />
-                                  <span>{formatDate(article.timestamp)}</span>
+                                  <span>{formatDate(article.timestamp || article.date)}</span>
                                 </div>
                               </div>
                             </div>
@@ -480,7 +442,7 @@ const News = () => {
                                   <Clock className="h-3 w-3" />
                                   {getReadingTime(article.content)} min
                                 </span>
-                                <span>{formatDate(article.timestamp)}</span>
+                                <span>{formatDate(article.timestamp || article.date)}</span>
                               </div>
                             </div>
                           </Link>
@@ -539,7 +501,7 @@ const News = () => {
                         <ArticleSkeleton key={i} />
                       ))
                     ) : currentArticles.length > 0 ? (
-                      currentArticles.map((article, index) => (
+                      currentArticles.map((article, _index) => (
                         <Card 
                           key={article.id}
                           className="mb-5 rounded-xl overflow-hidden border-border/30 hover:border-primary/30 transition-all hover:shadow-md bg-background/60 backdrop-blur-sm"
@@ -591,7 +553,7 @@ const News = () => {
                                     </Avatar>
                                     <div className="flex flex-col">
                                       <span className="text-sm font-medium">{article.author}</span>
-                                      <span className="text-xs text-muted-foreground">{formatDate(article.timestamp)}</span>
+                                      <span className="text-xs text-muted-foreground">{formatDate(article.timestamp || article.date)}</span>
                                     </div>
                                   </div>
                                   
@@ -636,7 +598,7 @@ const News = () => {
                   </div>
                   
                   {/* Pagination */}
-                  {!loading && totalPages > 1 && (
+                  {/* {!loading && totalPages > 1 && (
                     <Pagination className="mt-10">
                       <PaginationContent>
                         <PaginationItem>
@@ -694,7 +656,7 @@ const News = () => {
                         </PaginationItem>
                       </PaginationContent>
                     </Pagination>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
