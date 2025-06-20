@@ -3,37 +3,77 @@
 @tailwind utilities;
 
 @layer base {
+  /* Light Theme (Default) */
   :root {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+    --background: 0 0% 100%; /* White */
+    --foreground: 222.2 47.4% 11.2%; /* Dark Gray / Near Black */
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted: 210 40% 96.1%; /* Light Gray */
+    --muted-foreground: 215.4 16.3% 44.9%; /* Medium Gray */
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 40% 90%; /* Lighter Gray for accents */
+    --accent-foreground: 222.2 47.4% 11.2%; /* Dark Gray for text on accent */
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
+    --popover: 0 0% 100%; /* White */
+    --popover-foreground: 222.2 47.4% 11.2%; /* Dark Gray */
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --border: 214.3 31.8% 91.4%; /* Light Gray Border */
+    --input: 214.3 31.8% 91.4%; /* Light Gray Input Background */
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 222.2 47.4% 11.2%; /* Dark Gray */
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+    --primary: 262.1 83.3% 57.8%; /* Purple (example) */
+    --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%; /* Light Gray */
+    --secondary-foreground: 222.2 47.4% 11.2%; /* Dark Gray */
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72.2% 50.6%; /* Red */
+    --destructive-foreground: 0 0% 100%; /* White */
 
-    --ring: 216 34% 17%;
+    --ring: 262.1 83.3% 57.8%; /* Purple (example for focus rings) */
+
+    --hero-gradient-from: 210 40% 98%; /* Very light gray, almost white */
+    --hero-gradient-via: 210 40% 96.1%; /* Light Gray (same as --muted) */
 
     --radius: 0.5rem;
+  }
+
+  /* Dark Theme */
+  .dark {
+    --background: 224 71% 4%; /* Original Dark Blue */
+    --foreground: 213 31% 91%; /* Original Light Gray */
+
+    --muted: 223 47% 11%; /* Original Dark Muted */
+    --muted-foreground: 215.4 16.3% 56.9%; /* Original Muted Foreground */
+
+    --accent: 216 34% 17%; /* Original Dark Accent */
+    --accent-foreground: 210 40% 98%; /* Original Accent Foreground (Light) */
+
+    --popover: 224 60% 8%; /* Slightly Lighter Dark Popover */
+    --popover-foreground: 215 20.2% 65.1%; /* Original Popover Foreground */
+
+    --border: 216 34% 17%; /* Original Dark Border */
+    --input: 216 34% 17%; /* Original Dark Input */
+
+    --card: 224 60% 8%; /* Slightly Lighter Dark Card */
+    --card-foreground: 213 31% 91%; /* Original Card Foreground */
+
+    --primary: 270.1 73.3% 67.8%; /* Lighter Purple for Dark Mode (example) */
+    --primary-foreground: 222.2 47.4% 1.2%; /* Original Primary Foreground (Dark) */
+
+    --secondary: 222.2 47.4% 11.2%; /* Original Dark Secondary */
+    --secondary-foreground: 210 40% 98%; /* Original Secondary Foreground (Light) */
+
+    --destructive: 0 63% 31%; /* Original Dark Destructive */
+    --destructive-foreground: 210 40% 98%; /* Original Destructive Foreground (Light) */
+
+    --ring: 216 34% 17%; /* Original Dark Ring */
+
+    --hero-gradient-from: 223 60% 9%; /* Original #0a1224 */
+    --hero-gradient-via: 224 47% 13%; /* Original #111a2f */
+    /* --radius is already defined in :root and doesn't need to be repeated */
   }
 }
 

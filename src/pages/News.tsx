@@ -157,7 +157,12 @@ const News = () => {
   return (
     <PageTransition>
       {/* Modern Hero with Integrated Search and Tabbed Navigation */}
-      <div className="bg-gradient-to-b from-[#0a1224] via-[#111a2f] to-background pb-3">
+      <div
+        className="pb-3"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-via)), hsl(var(--background)))`
+        }}
+      >
         <div className="container mx-auto px-4 pt-0 md:pt-6">
           {/* Prominent Search Bar - Centered and Elevated */}
           <div className="max-w-2xl mx-auto mb-4 md:mb-8 mt-0 md:mt-2">
@@ -285,9 +290,9 @@ const News = () => {
                       onValueChange={setActiveTab}
                     >
                       <Tabs.List className="bg-muted/30 h-9 rounded-lg">
-                        <Tabs.Trigger value="latest" className="text-xs sm:text-sm rounded-md">Latest</Tabs.Trigger>
-                        <Tabs.Trigger value="trending" className="text-xs sm:text-sm rounded-md">Trending</Tabs.Trigger>
-                        <Tabs.Trigger value="featured" className="text-xs sm:text-sm rounded-md">Featured</Tabs.Trigger>
+                        <Tabs.Trigger value="latest" className="text-xs sm:text-sm rounded-md px-3" aria-label="Latest articles"></Tabs.Trigger>
+                        <Tabs.Trigger value="trending" className="text-xs sm:text-sm rounded-md px-3" aria-label="Trending articles"></Tabs.Trigger>
+                        <Tabs.Trigger value="featured" className="text-xs sm:text-sm rounded-md px-3" aria-label="Featured articles"></Tabs.Trigger>
                       </Tabs.List>
                     </Tabs.Root>
                   </div>
@@ -504,7 +509,7 @@ const News = () => {
                       currentArticles.map((article, _index) => (
                         <Card 
                           key={article.id}
-                          className="mb-5 rounded-xl overflow-hidden border-border/30 hover:border-primary/30 transition-all hover:shadow-md bg-background/60 backdrop-blur-sm"
+                          className="mb-5 rounded-xl overflow-hidden border-border/30 hover:border-primary/30 transition-all hover:shadow-md bg-card/80 dark:bg-card/70 backdrop-blur-sm shadow-md hover:shadow-lg"
                         >
                           <Link to={`/news/article/${article.id}`} className="block">
                             <div className="flex flex-col md:flex-row">
