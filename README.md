@@ -1,4 +1,4 @@
-# ItsNew - Gaming News & Updates Platform
+# ItsNew - Sports and Esports News & Updates Platform
 
 ItsNew is a modern web application for gaming news, tournaments, guides, and updates, built with React, TypeScript and Tailwind CSS.
 
